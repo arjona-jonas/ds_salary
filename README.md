@@ -71,7 +71,7 @@ ds_sal %>%
   arrange(desc(contagem))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/group_by_summarise.png "imagem 3")
+![imagem](imagens/group_by_summarise.png "imagem 3")
 
 Conforme observamos, os 607 pontos de dados apresentam 49 cargos diferentes, com alguns poucos deles ultrapassando a casa das dez vagas. Olhando nosso **group_by** podemos constatamos que essa variabilidade pode advir dos vários nomes dados para funções semelhantes: Data Scientist, Data Science Manager, Data Architect, Data Enginner, entre outros. Por isso, parte do esforço analítico deve ser reduzir a variabilidade, seja filtrando por um grupo específico de cargos parecidos, seja recategorizando-os.
 
@@ -118,13 +118,13 @@ ds_sal <- ds_sal %>%
 
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/job_title_cat.png "imagem 4")
+![imagem](imagens/job_title_cat.png "imagem 4")
 
 ```r
 table(ds_sal$big_job_title)
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/job_title_table.png "imagem 5")
+![imagem](imagens/job_title_table.png "imagem 5")
 
 Outro passo dado é o de limpeza e reorganização de algumas variáveis de tipo **factor**. A medição da experiência é claramente um **factor** ordinal, onde cada valor indica mais conhecimento que o anterior. Abaixo temos a recodificação e um **table** dela.
 
@@ -135,7 +135,7 @@ ds_sal$experience_level <- factor(ds_sal$experience_level,
 table(ds_sal$big_job_title)
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/experience_level_table.png "imagem 6")
+![imagem](imagens/experience_level_table.png "imagem 6")
 
 A proporção de trabalho remoto é armazenada como número, apesar de ser também uma categoria com ordenamento prévio. Usamos de um **mutate** com um **case_when** para gerar os valores desejados: "Non-remote" para 0, "Hybrid" para 50 e "Remote" para 100. Também temos um **table**.
 
@@ -150,7 +150,7 @@ ds_sal <- ds_sal %>%
 table(ds_sal$remote_ratio)
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/remote_ratio_table.png "imagem 7")
+![imagem](imagens/remote_ratio_table.png "imagem 7")
 
 Feitas esses correções, podemos partir para o mergulho exploratório.
 
@@ -162,13 +162,13 @@ Rodamos primeiro as duas funções **str** e **summary** para olhar os dados de 
 str(ds_sal)
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/str_ds_sal.png "imagem 8")
+![imagem](imagens/str_ds_sal.png "imagem 8")
 
 ```r
 summary(ds_sal)
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/summary_ds_sal.png "imagem 8")
+![imagem](imagens/summary_ds_sal.png "imagem 8")
 
 Conforme observamos, temos majoritariamente variáveis qualitativas nesses nossos dados, sendo apenas salário (original e convertido) números. Assim, nossa análise discutirá as nuances sofridas pelos salários ofertados para diferentes cargos e clivados por características qualitativas das vagas e dos contratados.
 
@@ -185,7 +185,7 @@ ds_sal %>%
   arrange(big_job_title,experience_level,desc(contagem))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/contagem_exp_bjt.png "imagem 9")
+![imagem](imagens/contagem_exp_bjt.png "imagem 9")
 
 ```r
 ds_sal %>%
@@ -196,7 +196,7 @@ ds_sal %>%
   geom_col(aes(x=big_job_title,y=contagem,fill=experience_level))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/plot_contagem_exp_bjt.png "imagem 10")
+![imagem](imagens/plot_contagem_exp_bjt.png "imagem 10")
 
 Posições relacionadas à engenheria de dados são as mais presentes nos nossos dados, seguidas daquelas focadas em ciência de dados. Isso pode advir tanto de uma maior procura delas quanto de um resultado da nossa recodificação, já que há de fato mais cargos diferentes nesses valores do que em análise de dados.
 
@@ -211,7 +211,7 @@ ds_sal %>%
   arrange(big_job_title,remote_ratio,desc(contagem))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/contagem_rem_bjt.png "imagem 11")
+![imagem](imagens/contagem_rem_bjt.png "imagem 11")
 
 ```r
 ds_sal %>%
@@ -222,7 +222,7 @@ ds_sal %>%
   geom_col(aes(x=big_job_title,y=contagem,fill=remote_ratio))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/plot_contagem_rem_bjt.png "imagem 12")
+![imagem](imagens/plot_contagem_rem_bjt.png "imagem 12")
 
 Disparado o países que mais possui vagas em dados é os Estado Unidos, ao ponto de ser incomparável procurar padrões de favorecimento de um cargo em um país em detrimento de outra posição.
 
@@ -236,7 +236,7 @@ ds_sal %>%
   coord_flip()
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/plot_contagem_pais_bjt.png "imagem 13")
+![imagem](imagens/plot_contagem_pais_bjt.png "imagem 13")
 
 O tamanho da companhia razoavelmente subverte as expectativas. São as companhias de tamanho médio (entre 50 e 250 funcionários) as que mais divulgam vagas na área de dados. Era esperado que esse domínio fosse das maiores empresas já que um maior quadro de funcionários refletiria um aumento também na necesidade de pessoal ligado a dados. Essas proporções sofrem inflexões apenas nas posições de cientista e engenheiro de dados para as grandes empresas, apesar dessa mudança não reverter o quadro geral.
 
@@ -247,7 +247,7 @@ ds_sal %>%
   arrange(big_job_title,desc(contagem))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/contagem_tamanho_bjt.png "imagem 14")
+![imagem](imagens/contagem_tamanho_bjt.png "imagem 14")
 
 ```r
 ds_sal %>%
@@ -258,7 +258,7 @@ ds_sal %>%
   geom_col(aes(x=big_job_title,y=contagem,fill=company_size))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/plot_contagem_tamanho_bjt.png "imagem 15")
+![imagem](imagens/plot_contagem_tamanho_bjt.png "imagem 15")
 
 Por fim, temos abaixo alguns dados sobre os salários cruzados por cargo e nível de experiência. A lógica do maior salário para o maior nível de experiência era esperada e foi confirmada, mas é interessante nós entendermos os saltos nesses valores conforme subimos na escala de conhecimento. 
 
@@ -270,7 +270,7 @@ ds_sal %>%
   arrange(big_job_title,desc(media))
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/media_exp_bjt.png "imagem 16")
+![imagem](imagens/media_exp_bjt.png "imagem 16")
 
 ```r
 ds_sal %>%
@@ -282,7 +282,7 @@ ds_sal %>%
   geom_col(aes(x=big_job_title,y=media,fill=experience_level),position = "dodge")
 ```
 
-![imagem](https://raw.githubusercontent.com/arjona-jonas/ds_salary/main/imagens/plot_media_exp_bjt.png "imagem 17")
+![imagem](imagens/plot_media_exp_bjt.png "imagem 17")
 
 O iniciante, o júnior e o sênior se encontram mais ou menos com as mesmas médias para os três cargos, sendo apenas na posição de executivo onde há divergência, sendo maior para o engenheiro e menor para o analista. Outro ponto é que o salto entre níveis é muito próximo entre os três primeiros níveis, novamente sendo diferente apenas na posição de executivo. Enquanto o analista executivo vê pouca mudança na sua média salarial (entre 10 e 15 mil), o engenheiro recebe um aumento de 100 mil dólares ao ano e o cientista de 32 mil dólares.
 
