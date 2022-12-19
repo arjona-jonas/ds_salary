@@ -113,7 +113,7 @@ ds_sal <- ds_sal %>%
     job_title %in% DA~"Data Analyst",
     job_title %in% DS~"Data Scientist",
     job_title %in% DE~"Data Engineer",
-    TRUE~"Head of Data"
+    TRUE~"Outros"
   ))
 
 ```
